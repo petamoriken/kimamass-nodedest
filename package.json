@@ -1,0 +1,12 @@
+{
+  "name": "kimamass-nodetest",
+  "version": "0.0.2",
+  "dependencies": {
+    "express": "3.4.*",
+    "ejs": "*",
+    "less-middleware": "*"
+  },
+   "engines": {
+    "node": "0.10.x"
+  }
+}
