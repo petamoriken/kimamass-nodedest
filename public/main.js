@@ -55,12 +55,12 @@
 		function drawMouse() {
 			ctx.clearRect(0, 0, width, height);
 			mouse.forEach(function(data) {
-				if(data.id !== myId)
+				if(data.id !== myId) {
 					ctx.beginPath();
 					ctx.rect(data.x, data.y, 10, 10);
 					ctx.stroke();
+				}
 			});
-			console.log(mouse.length);
 			requestAnimationFrame(drawMouse);
 		}
 
