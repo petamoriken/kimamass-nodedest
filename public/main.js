@@ -52,7 +52,7 @@
 		function drawMouse() {
 			ctx.clearRect(0, 0, width, height);
 			mouse.forEach(function(data) {
-				ctx.rect(data.x, data.y, 10, 10);
+				ctx.rect(data.x, data.y, 100, 100);
 			});
 			requestAnimationFrame(drawMouse);
 		}
