@@ -3,6 +3,7 @@
 	var mouseDataStore = milkcocoa.dataStore("mouse");
 
 	var mouse = [], mouseImage = new Image();
+	window.mouse = mouse;
 
 	var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
@@ -33,6 +34,8 @@
 				}
 			});
 		}
+
+		//console.log(mouse);
 	});
 
 	// onload
@@ -54,7 +57,7 @@
 			mouse.forEach(function(data) {
 				if(data.id !== myId)
 					ctx.beginPath();
-					ctx.rect(data.x, data.y, 100, 100);
+					ctx.rect(data.x, data.y, 10, 10);
 					ctx.stroke();
 			});
 			requestAnimationFrame(drawMouse);
