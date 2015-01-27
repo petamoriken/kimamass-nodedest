@@ -53,16 +53,14 @@
 
 		requestAnimationFrame(drawMouse);
 		function drawMouse() {
-			var num = 0;
 			ctx.clearRect(0, 0, width, height);
 			mouse.forEach(function(data) {
 				if(data.id !== myId)
 					ctx.beginPath();
 					ctx.rect(data.x, data.y, 10, 10);
 					ctx.stroke();
-					++num;
 			});
-			console.log(num);
+			console.log(mouse.length);
 			requestAnimationFrame(drawMouse);
 		}
 
