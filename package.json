@@ -1,12 +1,25 @@
 {
-  "name": "kimamass-nodetest",
-  "version": "0.0.2",
-  "dependencies": {
-    "express": "3.4.*",
-    "ejs": "*",
-    "less-middleware": "*"
+  "name": "wcdlast",
+  "version": "1.0.0",
+  "description": "WCD final project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-   "engines": {
-    "node": "0.10.x"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petamoriken/kimamass-nodetest.git"
+  },
+  "author": "Kenta Moriuchi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/petamoriken/kimamass-nodetest/issues"
+  },
+  "homepage": "https://github.com/petamoriken/kimamass-nodetest",
+  "dependencies": {
+    "express": "^4.11.1",
+    "morgan": "^1.5.1",
+    "multer": "^0.1.7",
+    "socket.io-client": "^1.3.2"
   }
 }

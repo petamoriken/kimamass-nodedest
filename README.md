@@ -1,6 +1,4 @@
-kimamass-nodedest
+WCD Final Project
 =================
-
-This is express, ejs and less test.
 
 http://app.kimamass.com/
