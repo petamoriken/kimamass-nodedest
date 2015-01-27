@@ -33,6 +33,8 @@
 				}
 			});
 		}
+
+		console.log("send");
 	});
 
 	// onload
@@ -52,8 +54,10 @@
 		function drawMouse() {
 			ctx.clearRect(0, 0, width, height);
 			mouse.forEach(function(data) {
-				ctx.rect(data.x, data.y, 100, 100);
+				if(data.id !== myId)
+					ctx.rect(data.x, data.y, 100, 100);
 			});
+			console.log("hoge");
 			requestAnimationFrame(drawMouse);
 		}
 
