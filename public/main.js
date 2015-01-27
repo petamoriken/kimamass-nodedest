@@ -34,7 +34,7 @@
 			});
 		}
 
-		console.log("send");
+		console.log(mouse);
 	});
 
 	// onload
@@ -57,7 +57,6 @@
 				if(data.id !== myId)
 					ctx.rect(data.x, data.y, 100, 100);
 			});
-			console.log("hoge");
 			requestAnimationFrame(drawMouse);
 		}
 
