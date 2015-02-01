@@ -42,7 +42,7 @@
 	// onload
 	window.addEventListener("DOMContentLoaded", function() {
 
-		var canvas = document.getElementById("main");
+		var canvas = document.getElementById("game");
 		var width = canvas.width, height = canvas.height;
 		var ctx = canvas.getContext("2d");
 
@@ -70,7 +70,7 @@
 			// mouse draw
 			mouse.forEach(function(data) {
 				if(data.id !== myId) {
-					ctx.drawImage(cursorImage, data.x, data.y);
+					ctx.drawImage(cursorImage, data.x|0, data.y|0);
 				}
 			});
 
