@@ -23,14 +23,21 @@ app.listen(app.get("port"));
 	var stageDataStore = milkcocoa.dataStore("stage"), mouseDataStore = milkcocoa.dataStore("mouse"), clickDataStore = milkcocoa.dataStore("click");
 	var stage = null, progress = 0;
 
+	/*
 	stageDataStore.get("now", function(data) {
 		stage = data.value;
+	});
+	*/
+
+	stageDataStore.query().done(function(data) {
+		stage = data[0].value;
 	});
 
 	mouseDataStore.on("send", function(data) {
 
 	});
 
+	/*
 	clickDataStore.on("send", function(data) {
 		switch(stage) {
 			case 1:
@@ -46,6 +53,7 @@ app.listen(app.get("port"));
 		}
 
 	});
+*/
 
 })();
 
