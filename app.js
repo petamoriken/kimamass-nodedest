@@ -37,8 +37,8 @@ app.listen(app.get("port"));
 				++progress;
 				if(progress === 100) {
 					progress = 0;
-					stage = 1;
-					stageDataStore.set("now", {value: 1});
+					stage = 2;
+					stageDataStore.set("now", {value: 2});
 				}
 				break;
 			default:
