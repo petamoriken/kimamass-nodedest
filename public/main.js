@@ -3,17 +3,16 @@
 	var mouseDataStore = milkcocoa.dataStore("mouse");
 
 	var mouse = [], mouseImage = new Image();
-	window.mouse = mouse;
 
 	var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-	//mouse.src = "";
+	mouseImage.src = "img/cursor.gif";
 
 	var myId = (function(){
 		function S4() {
 			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 		}   
-		return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4() +S4());
+		return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 	})();
 
 	mouseDataStore.on("send", function(data) {
@@ -34,12 +33,11 @@
 				}
 			});
 		}
-
-		//console.log(mouse);
 	});
 
 	// onload
 	window.addEventListener("DOMContentLoaded", function() {
+
 		var canvas = document.getElementById("main");
 		var width = canvas.width, height = canvas.height;
 		var ctx = canvas.getContext("2d");
@@ -56,9 +54,7 @@
 			ctx.clearRect(0, 0, width, height);
 			mouse.forEach(function(data) {
 				if(data.id !== myId) {
-					ctx.beginPath();
-					ctx.rect(data.x, data.y, 10, 10);
-					ctx.stroke();
+					ctx.drawImage(mouseImage, data.x, data.y);
 				}
 			});
 			requestAnimationFrame(drawMouse);
