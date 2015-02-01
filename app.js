@@ -31,6 +31,10 @@ app.listen(app.get("port"));
 	
 	stageDataStore.query().done(function(data) {
 		stage = data[0].value;
+		if(stage !== 1 && stage !== 2) {
+			stage = random(2);
+			stageDataStore.set("now", {value: stage});
+		}
 	});
 
 	// mouse data の受け取り (1000ms 動かない mouse は消す)
