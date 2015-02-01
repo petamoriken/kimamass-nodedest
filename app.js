@@ -20,12 +20,32 @@ app.listen(app.get("port"));
 // milkcocoa
 (function() {
 	var milkcocoa = new MilkCocoa("https://io-gi5ewcnl9.mlkcca.com");
-	var stage = milkcocoa.dataStore("stage");
+	var stageDataStore = milkcocoa.dataStore("stage"), mouseDataStore = milkcocoa.dataStore("mouse"), clickDataStore = milkcocoa.dataStore("click");
+	var stage = null, progress = 0;
 
-	stage.on("set", function(data){ 
-		console.log(data);
+	stageDataStore.get("now", function(data) {
+		stage = data.value;
 	});
-	stage.set("now", {value: random(3)});
+
+	mouseDataStore.on("send", function(data) {
+
+	});
+
+	clickDataStore.on("send", function(data) {
+		switch(stage) {
+			case 1:
+				++progress;
+				if(progress === 100) {
+					progress = 0;
+					stage = 1;
+					stageDataStore.set("now", {value: 1});
+				}
+				break;
+			default:
+				break;
+		}
+
+	});
 
 })();
 
