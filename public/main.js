@@ -2,7 +2,16 @@
 	var milkcocoa = new MilkCocoa("https://io-gi5ewcnl9.mlkcca.com");
 	var stageDataStore = milkcocoa.dataStore("stage"), mouseDataStore = milkcocoa.dataStore("mouse"), clickDataStore = milkcocoa.dataStore("click");
 
-	var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+	var requestAnimationFrame = (function () {
+		return	window.requestAnimationFrame ||
+				window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame ||
+				window.oRequestAnimationFrame ||
+				window.msRequestAnimationFrame ||
+				function (callback) {
+					return window.setTimeout(callback, 1000 / 60);
+                };
+    })();
 
 	var mouse = [], cursorImage = new Image(), closedDoorImage = new Image(), openDoorImage = new Image(), offButtonImage = new Image(), onButtonImage = new Image();
 
@@ -63,6 +72,22 @@
 			var rect = e.target.getBoundingClientRect();
 			var x = e.pageX - rect.left, y = e.pageY - rect.top;
 			mouseDataStore.send({x: x, y: y, id: myId});
+
+			switch(localStage) {
+				case null:
+					if(x > 295 && x < 460 && y > 45 && y < 310) {
+						switchCursor(true);
+					} else {
+						switchCursor(false);
+					}
+					break;
+				case 1:
+					if(x > 295 && x < 460 && y > 95 && y < 360) {
+						switchCursor(true);
+					} else {
+						switchCursor(false);
+					}
+			}
 		});
 
 		// click
@@ -161,11 +186,13 @@
 			}
 
 			// mouse draw
-			mouse.forEach(function(data) {
-				if(data.id !== myId) {
-					ctx.drawImage(cursorImage, data.x|0, data.y|0);
-				}
-			});
+			if(localStage !== null) {
+				mouse.forEach(function(data) {
+					if(data.id !== myId) {
+						ctx.drawImage(cursorImage, data.x|0, data.y|0);
+					}
+				});
+			}
 
 			// repeat
 			requestAnimationFrame(draw);
@@ -176,6 +203,14 @@
 				opening = 2;
 				localStage = globalStage;
 			}, 1000);
+		}
+
+		function switchCursor(flag) {
+			if(flag) {
+				canvas.style.cursor = "pointer";
+			} else {
+				canvas.style.cursor = "auto";
+			}
 		}
 
 	});

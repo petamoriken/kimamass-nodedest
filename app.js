@@ -76,7 +76,7 @@ app.listen(app.get("port"));
 		switch(stage) {
 			case 1:
 				++progress;
-				if(progress === 100) {
+				if(progress === 50) {
 					progress = 0;
 					stage = 2;
 					stageDataStore.set("now", {value: 2});
