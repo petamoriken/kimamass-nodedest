@@ -4,7 +4,7 @@
 
 	var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-	var mouse = [], cursorImage = new Image(), closedDoorImage = new Image(), openDoorImage = new Image();
+	var mouse = [], cursorImage = new Image(), closedDoorImage = new Image(), openDoorImage = new Image(), offButtonImage = new Image(), onButtonImage = new Image();
 
 	var myId = (function() {
 		function S4() {
@@ -13,12 +13,14 @@
 		return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 	})();
 
-	var localStage = null, globalStage = null, opening = 0;
+	var localStage = null, globalStage = null, opening = 0, buttonflag1 = false, buttonflag2 = false, buttonflag3 = false;
 
 	// Image のロード
 	cursorImage.src = "img/cursor.gif";
 	closedDoorImage.src = "img/door1.png";
 	openDoorImage.src = "img/door2.png";
+	offButtonImage.src = "img/button1.png";
+	onButtonImage.src = "img/button2.png";
 
 	// globalStage の受け取り
 	stageDataStore.get("now", function(data) {
@@ -63,6 +65,7 @@
 			mouseDataStore.send({x: x, y: y, id: myId});
 		});
 
+		// click
 		canvas.addEventListener("click", function(e) {
 			var rect = e.target.getBoundingClientRect();
 			var x = e.pageX - rect.left, y = e.pageY - rect.top;
@@ -83,7 +86,8 @@
 						clickDataStore.send({x: x, y: y, id: myId});
 					}
 					break;
-				case 2:
+				default:
+					break;
 			}
 
 		});
@@ -136,6 +140,24 @@
 						break;
 
 					case 2:
+						mouse.forEach(function(data) {
+							var x = data.x, y = data.y;
+							if(x > 130 && x < 185 && y > 350 && y < 420)	buttonflag1 = true;
+							if(x > 300 && x < 355 && y > 380 && y < 450)	buttonflag2 = true;
+							if(x > 460 && x < 515 && y > 350 && y < 420)	buttonflag3 = true;
+						});
+
+						if(opening === 0) {
+							ctx.drawImage(closedDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
+							ctx.drawImage(buttonflag1 ? onButtonImage : offButtonImage, (width - 100) / 5, height - 150);
+							ctx.drawImage(buttonflag2 ? onButtonImage : offButtonImage, (width - 100) / 2, height - 120);
+							ctx.drawImage(buttonflag3 ? onButtonImage : offButtonImage, (width - 100) / 5 * 4, height - 150);
+						} else if(opening === 1) {
+							ctx.drawImage(openDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
+							startOpening();
+						}
+
+						buttonflag1 = buttonflag2 = buttonflag3 = false;
 				}
 
 			}
