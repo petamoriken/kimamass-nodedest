@@ -36,7 +36,7 @@
 		globalStage = data.value;
 	});
 	stageDataStore.on("set", function(data) {
-		globalStage = data.value;
+		globalStage = data.value.value;
 	});
 
 	// mouse data の受け取り (1000ms 動かない mouse は消す)
@@ -87,6 +87,9 @@
 					} else {
 						switchCursor(false);
 					}
+					break;
+				default:
+					switchCursor(false);
 			}
 		});
 
@@ -181,6 +184,7 @@
 						}
 
 						buttonflag1 = buttonflag2 = buttonflag3 = false;
+						break;
 				}
 
 			}
