@@ -1,20 +1,24 @@
 (function() {
 	var milkcocoa = new MilkCocoa("https://io-gi5ewcnl9.mlkcca.com");
-	var mouseDataStore = milkcocoa.dataStore("mouse");
+	var mouseDataStore = milkcocoa.dataStore("mouse"), clickDataStore = milkcocoa.dataStore("click");
 
-	var mouse = [], mouseImage = new Image();
+	var mouse = [], cursorImage = new Image();
 
 	var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-	mouseImage.src = "img/cursor.gif";
-
-	var myId = (function(){
+	var myId = (function() {
 		function S4() {
 			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 		}   
 		return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 	})();
 
+	var stage = null;
+
+	// cursor Image のロード
+	cursorImage.src = "img/cursor.gif";
+
+	// mouse data の受け取り (1000ms 動かない mouse は消す)
 	mouseDataStore.on("send", function(data) {
 		var val = data.value;
 		
@@ -45,19 +49,33 @@
 		// send
 		canvas.addEventListener("mousemove", function(e) {
 			var rect = e.target.getBoundingClientRect();
-			var x = e.clientX - rect.left, y = e.clientY - rect.top;
+			var x = e.pageX - rect.left, y = e.pageY - rect.top;
 			mouseDataStore.send({x: x, y: y, id: myId});
 		});
 
-		requestAnimationFrame(drawMouse);
-		function drawMouse() {
+		// draw
+		requestAnimationFrame(draw);
+		function draw() {
+			// clear
 			ctx.clearRect(0, 0, width, height);
+
+			// draw stage
+			switch(stage) {
+				case null:
+				case 1:
+				case 2:
+				case 3:
+			}
+
+			// mouse draw
 			mouse.forEach(function(data) {
 				if(data.id !== myId) {
-					ctx.drawImage(mouseImage, data.x, data.y);
+					ctx.drawImage(cursorImage, data.x, data.y);
 				}
 			});
-			requestAnimationFrame(drawMouse);
+
+			// repeat
+			requestAnimationFrame(draw);
 		}
 
 	});
