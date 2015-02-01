@@ -70,8 +70,6 @@
 			var rect = e.target.getBoundingClientRect();
 			var x = e.pageX - rect.left, y = e.pageY - rect.top;
 
-			console.log(x, y);
-
 			if(opening)
 				return;
 

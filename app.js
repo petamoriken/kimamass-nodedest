@@ -59,8 +59,6 @@ app.listen(app.get("port"));
 				stage = 1;
 				stageDataStore.set("now", {value: 1});
 			}
-
-			flag1 = flag2 = frag3 = false;
 		}
 
 		setTimeout(removeMouseObject, 1000);
