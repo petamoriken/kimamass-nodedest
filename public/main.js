@@ -180,6 +180,9 @@
 							ctx.drawImage(buttonflag3 ? onButtonImage : offButtonImage, (width - 100) / 5 * 4, height - 150);
 						} else if(opening === 1) {
 							ctx.drawImage(openDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
+							ctx.drawImage(onButtonImage, (width - 100) / 5, height - 150);
+							ctx.drawImage(onButtonImage, (width - 100) / 2, height - 120);
+							ctx.drawImage(onButtonImage, (width - 100) / 5 * 4, height - 150);
 							startOpening();
 						}
 
