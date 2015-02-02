@@ -186,7 +186,6 @@
 				}
 			}
 
-
 			// mouse draw
 			if(localStage !== null) {
 				mouse.forEach(function(data) {
@@ -202,9 +201,11 @@
 
 		function switchCursor(flag) {
 			if(flag) {
-				canvas.style.cursor = "pointer";
+				if(canvas.style.cursor !== "pointer")
+					canvas.style.cursor = "pointer";
 			} else {
-				canvas.style.cursor = "auto";
+				if(canvas.style.cursor !== "auto")
+					canvas.style.cursor = "auto";
 			}
 		}
 
