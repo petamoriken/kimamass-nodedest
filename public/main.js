@@ -37,6 +37,7 @@
 	});
 	stageDataStore.on("set", function(data) {
 		globalStage = data.value.value;
+		opening = 1;
 	});
 
 	// mouse data の受け取り (1000ms 動かない mouse は消す)
@@ -122,77 +123,69 @@
 		requestAnimationFrame(draw);
 		function draw() {
 
-			if(localStage !== null && localStage !== globalStage) {
-				opening = 1;
+			// clear
+			ctx.clearRect(0, 0, width, height);
+
+			// draw stage
+			switch(localStage) {
+				case null:
+					if(!opening) {
+						ctx.drawImage(closedDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
+					} else {
+						ctx.drawImage(openDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
+					}
+					break;
+
+				case 1:
+					if(!opening) {
+						ctx.drawImage(closedDoorImage, (width - 300) / 2, (height - 300) / 2);
+					} else {
+						ctx.drawImage(openDoorImage, (width - 300) / 2, (height - 300) / 2);
+					}
+					break;
+
+				case 2:
+					mouse.forEach(function(data) {
+						var x = data.x, y = data.y;
+						if(x > 130 && x < 185 && y > 350 && y < 420)	buttonflag1 = true;
+						if(x > 300 && x < 355 && y > 380 && y < 450)	buttonflag2 = true;
+						if(x > 460 && x < 515 && y > 350 && y < 420)	buttonflag3 = true;
+					});
+
+					if(!opening) {
+						ctx.drawImage(closedDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
+						ctx.drawImage(buttonflag1 ? onButtonImage : offButtonImage, (width - 100) / 5, height - 150);
+						ctx.drawImage(buttonflag2 ? onButtonImage : offButtonImage, (width - 100) / 2, height - 120);
+						ctx.drawImage(buttonflag3 ? onButtonImage : offButtonImage, (width - 100) / 5 * 4, height - 150);
+					} else {
+						ctx.drawImage(openDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
+						ctx.drawImage(onButtonImage, (width - 100) / 5, height - 150);
+						ctx.drawImage(onButtonImage, (width - 100) / 2, height - 120);
+						ctx.drawImage(onButtonImage, (width - 100) / 5 * 4, height - 150);
+					}
+
+					buttonflag1 = buttonflag2 = buttonflag3 = false;
+					break;
 			}
 
-			if(opening >= 2) {
+			if(opening === 1) {
+				setTimeout(function() {
+					opening = 2;
+				}, 1000);
+			}
 
-				if(opening <= 10) {
-					ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
-				} else if(opening <= 35) {
-					ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
-				} else {
-					ctx.fillStyle = "#fff";
-				}
+			// fade
+			if(opening >= 2) {
+				ctx.fillStyle = "rgba(255, 255, 255, "+ opening / 50 +")";
 				ctx.fillRect(0, 0, width, height);
 
 				++opening;
 				if(opening === 50) {
 					opening = 0;
+					localStage = globalStage;
 				}
-
-			} else {
-
-				// clear
-				ctx.clearRect(0, 0, width, height);
-
-				// draw stage
-				switch(localStage) {
-					case null:
-						if(opening === 0) {
-							ctx.drawImage(closedDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
-						} else if(opening === 1) {
-							ctx.drawImage(openDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
-							startOpening();
-						}
-						break;
-
-					case 1:
-						if(opening === 0) {
-							ctx.drawImage(closedDoorImage, (width - 300) / 2, (height - 300) / 2);
-						} else if(opening === 1) {
-							ctx.drawImage(openDoorImage, (width - 300) / 2, (height - 300) / 2);
-							startOpening();
-						}
-						break;
-
-					case 2:
-						mouse.forEach(function(data) {
-							var x = data.x, y = data.y;
-							if(x > 130 && x < 185 && y > 350 && y < 420)	buttonflag1 = true;
-							if(x > 300 && x < 355 && y > 380 && y < 450)	buttonflag2 = true;
-							if(x > 460 && x < 515 && y > 350 && y < 420)	buttonflag3 = true;
-						});
-
-						if(opening === 0) {
-							ctx.drawImage(closedDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
-							ctx.drawImage(buttonflag1 ? onButtonImage : offButtonImage, (width - 100) / 5, height - 150);
-							ctx.drawImage(buttonflag2 ? onButtonImage : offButtonImage, (width - 100) / 2, height - 120);
-							ctx.drawImage(buttonflag3 ? onButtonImage : offButtonImage, (width - 100) / 5 * 4, height - 150);
-						} else if(opening === 1) {
-							ctx.drawImage(openDoorImage, (width - 300) / 2, (height - 300 - 100) / 2);
-							ctx.drawImage(onButtonImage, (width - 100) / 5, height - 150);
-							ctx.drawImage(onButtonImage, (width - 100) / 2, height - 120);
-							ctx.drawImage(onButtonImage, (width - 100) / 5 * 4, height - 150);
-							startOpening();
-						}
-
-						buttonflag1 = buttonflag2 = buttonflag3 = false;
-						break;
-				}
-
 			}
+
 
 			// mouse draw
 			if(localStage !== null) {
@@ -205,13 +198,6 @@
 
 			// repeat
 			requestAnimationFrame(draw);
-		}
-
-		function startOpening() {
-			setTimeout(function() {
-				opening = 2;
-				localStage = globalStage;
-			}, 1000);
 		}
 
 		function switchCursor(flag) {
